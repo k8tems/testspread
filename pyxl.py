@@ -15,9 +15,9 @@ def create_img(f_name, size):
     return img
 
 
-def write_img(ws, img, x, y):
+def write_img(ws, img, crds):
     img.anchor = AbsoluteAnchor(
-        pos=XDRPoint2D(p2e(x), p2e(y)),
+        pos=XDRPoint2D(p2e(crds[0]), p2e(crds[1])),
         ext=XDRPositiveSize2D(p2e(img.width), p2e(img.height))
     )
     ws.add_image(img)
@@ -39,5 +39,5 @@ if __name__ == '__main__':
         ws.row_dimensions[i].height = 75
 
     write_row(ws, 1, [1, 2, 3])
-    write_img(ws, create_img('img.png', IMG_SZ), CELL_WIDTH, 0)
+    write_img(ws, create_img('img.png', IMG_SZ), (CELL_WIDTH, 0))
     wb.save('out.xlsx')
