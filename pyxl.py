@@ -44,7 +44,7 @@ class DLSheet(object):
 
 
 if __name__ == '__main__':
-    IMG_LEFT = 63
+    IMG_LEFT = 210
     CELL_HEIGHT = 75
     IMG_SZ = 100, 100
     PROMPT_CELL_WIDTH = 20
