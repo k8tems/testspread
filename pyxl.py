@@ -41,11 +41,12 @@ class DLSheet(object):
         obj.init_dims(prompt_cell_width, cell_height)
         return obj
 
-    def append(self, prompt, loss, pil_img):
+    def append(self, prompt, loss, pil_imgs):
         write_row(ws, self.cur_row, [prompt, loss])
-        img = Image(pil_img)
-        img.width, img.height = self.img_sz
-        write_img(ws, img, (self.img_left, (self.cur_row-1) * 100))
+        imgs = [Image(pi) for pi in pil_imgs]
+        for i, im in enumerate(imgs):
+            im.width, im.height = self.img_sz
+            write_img(ws, im, (self.img_left + (i*100), (self.cur_row-1) * 100))
         self.cur_row += 1
 
 
@@ -61,13 +62,16 @@ if __name__ == '__main__':
         ws, img_left=IMG_LEFT, img_sz=IMG_SZ,
         prompt_cell_width=PROMPT_CELL_WIDTH, cell_height=CELL_HEIGHT)
 
-    pil_img_1 = PILImage.open('img1.png')  # this is what the incoming data will look like in the NB
+    pil_img_1_1 = PILImage.open('img1_1.png')  # this is what the incoming data will look like in the NB
+    pil_img_1_2 = PILImage.open('img1_2.png')
     dl_sheet.append(
         prompt='A cinematic photo of a fat bengal cat [mbl] sitting in front of a pizza',
-        loss=0.0015, pil_img=pil_img_1)
+        loss=0.0015, pil_imgs=[pil_img_1_1, pil_img_1_2])
 
-    pil_img_2 = PILImage.open('img2.png')
+    pil_img_2_1 = PILImage.open('img2_1.png')
+    pil_img_2_2 = PILImage.open('img2_2.png')
     dl_sheet.append(
-        prompt='A photo of a miniature bengal cat [mbl] held by a human hand', loss=0.0035, pil_img=pil_img_2)
+        prompt='A photo of a miniature bengal cat [mbl] held by a human hand',
+        loss=0.0035, pil_imgs=[pil_img_2_1, pil_img_2_2])
 
     wb.save('out.xlsx')
