@@ -66,6 +66,6 @@ if __name__ == '__main__':
 
     pil_img_2 = PILImage.open('img2.png')
     dl_sheet.append(
-        prompt='A photo of a miniature bengal cat [mbl] held by a human hand', loss=0.0015, pil_img=pil_img_2)
+        prompt='A photo of a miniature bengal cat [mbl] held by a human hand', loss=0.0035, pil_img=pil_img_2)
 
     wb.save('out.xlsx')
