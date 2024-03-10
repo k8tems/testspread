@@ -4,7 +4,6 @@ from PIL import Image as PILImage
 from openpyxl.drawing.spreadsheet_drawing import AbsoluteAnchor
 from openpyxl.drawing.xdr import XDRPoint2D, XDRPositiveSize2D
 from openpyxl.utils.units import pixels_to_EMU
-from openpyxl.styles import Alignment
 
 
 p2e = pixels_to_EMU
