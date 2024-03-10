@@ -55,12 +55,17 @@ if __name__ == '__main__':
     wb = Workbook()
     ws = wb.active
 
-    pil_img = PILImage.open('img.png')  # this is what the incoming data will look like in the NB
-
     dl_sheet = DLSheet.create(
         ws, img_left=IMG_LEFT, img_sz=IMG_SZ,
         prompt_cell_width=PROMPT_CELL_WIDTH, cell_height=CELL_HEIGHT)
+
+    pil_img_1 = PILImage.open('img1.png')  # this is what the incoming data will look like in the NB
     dl_sheet.append(
-        prompt='A bengal cat [mbl] resting on a hammock', loss=0.0015, pil_img=pil_img)
+        prompt='A cinematic photo of a fat bengal cat [mbl] sitting in front of a pizza',
+        loss=0.0015, pil_img=pil_img_1)
+
+    pil_img_2 = PILImage.open('img2.png')
+    dl_sheet.append(
+        prompt='A photo of a miniature bengal cat [mbl] held by a human hand', loss=0.0015, pil_img=pil_img_2)
 
     wb.save('out.xlsx')
