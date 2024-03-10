@@ -1,5 +1,6 @@
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image
+from PIL import Image as PILImage
 from openpyxl.drawing.spreadsheet_drawing import AbsoluteAnchor
 from openpyxl.drawing.xdr import XDRPoint2D, XDRPositiveSize2D
 from openpyxl.utils.units import pixels_to_EMU
@@ -7,12 +8,6 @@ from openpyxl.styles import Alignment
 
 
 p2e = pixels_to_EMU
-
-
-def create_img(f_name, size):
-    img = Image(f_name)
-    img.width, img.height = size
-    return img
 
 
 def write_img(ws, img, crds):
@@ -29,17 +24,20 @@ def write_row(ws, row, data, start_col=1):
 
 
 class DLSheet(object):
-    def __init__(self, ws, img_left):
+    def __init__(self, ws, img_left, img_sz):
         self.ws = ws
         self.img_left = img_left
+        self.img_sz = img_sz
 
     def init_dims(self, prompt_cell_width, cell_height):
         self.ws.column_dimensions['A'].width = prompt_cell_width
         for i in range(1, 100):
             self.ws.row_dimensions[i].height = cell_height
 
-    def append(self, prompt, loss, img):
+    def append(self, prompt, loss, pil_img):
         write_row(ws, 1, [prompt, loss])
+        img = Image(pil_img)
+        img.width, img.height = self.img_sz
         write_img(ws, img, (self.img_left, 0))
 
 
@@ -51,9 +49,11 @@ if __name__ == '__main__':
     wb = Workbook()
     ws = wb.active
 
-    dl_sheet = DLSheet(ws, img_left=IMG_LEFT)
+    pil_img = PILImage.open('img.png')  # this is what the incoming data will look like in the NB
+
+    dl_sheet = DLSheet(ws, img_left=IMG_LEFT, img_sz=IMG_SZ)
     dl_sheet.init_dims(prompt_cell_width=PROMPT_CELL_WIDTH, cell_height=CELL_HEIGHT)
     dl_sheet.append(
-        prompt='A bengal cat [mbl] resting on a hammock', loss=0.0015, img=create_img('img.png', IMG_SZ))
+        prompt='A bengal cat [mbl] resting on a hammock', loss=0.0015, pil_img=pil_img)
 
     wb.save('out.xlsx')
