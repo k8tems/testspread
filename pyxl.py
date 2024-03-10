@@ -4,6 +4,7 @@ from PIL import Image as PILImage
 from openpyxl.drawing.spreadsheet_drawing import AbsoluteAnchor
 from openpyxl.drawing.xdr import XDRPoint2D, XDRPositiveSize2D
 from openpyxl.utils.units import pixels_to_EMU
+from openpyxl.styles import Alignment
 
 
 p2e = pixels_to_EMU
@@ -33,6 +34,8 @@ class DLSheet(object):
         self.ws.column_dimensions['A'].width = prompt_cell_width
         for i in range(1, 100):
             self.ws.row_dimensions[i].height = cell_height
+            alignment = Alignment(horizontal='center', vertical='center', wrapText=True)
+            ws[f'A{i}'].alignment = ws[f'B{i}'].alignment = alignment
 
     @classmethod
     def create(cls, ws, img_left, img_sz, prompt_cell_width, cell_height):
