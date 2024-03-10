@@ -28,6 +28,7 @@ class DLSheet(object):
         self.ws = ws
         self.img_left = img_left
         self.img_sz = img_sz
+        self.cur_row = 1
 
     def init_dims(self, prompt_cell_width, cell_height):
         self.ws.column_dimensions['A'].width = prompt_cell_width
@@ -41,10 +42,11 @@ class DLSheet(object):
         return obj
 
     def append(self, prompt, loss, pil_img):
-        write_row(ws, 1, [prompt, loss])
+        write_row(ws, self.cur_row, [prompt, loss])
         img = Image(pil_img)
         img.width, img.height = self.img_sz
-        write_img(ws, img, (self.img_left, 0))
+        write_img(ws, img, (self.img_left, (self.cur_row-1) * 100))
+        self.cur_row += 1
 
 
 if __name__ == '__main__':
