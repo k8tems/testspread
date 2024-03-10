@@ -29,15 +29,18 @@ def write_row(ws, row, data, start_col=1):
 
 
 if __name__ == '__main__':
-    CELL_WIDTH = 63
+    IMG_LEFT = 63
     CELL_HEIGHT = 75
     IMG_SZ = 100, 100
+    PROMPT_CELL_WIDTH = 20
     wb = Workbook()
     ws = wb.active
 
-    for i in range(1, 100):
-        ws.row_dimensions[i].height = 75
+    ws.column_dimensions['A'].width = PROMPT_CELL_WIDTH
 
-    write_row(ws, 1, [1, 2, 3])
-    write_img(ws, create_img('img.png', IMG_SZ), (CELL_WIDTH, 0))
+    for i in range(1, 100):
+        ws.row_dimensions[i].height = CELL_HEIGHT
+
+    write_row(ws, 1, ['A bengal cat [mbl] resting on a hammock', 0.0015])
+    write_img(ws, create_img('img.png', IMG_SZ), (IMG_LEFT, 0))
     wb.save('out.xlsx')
