@@ -24,8 +24,9 @@ def write_row(ws, row, data, start_col=1):
 
 
 if __name__ == '__main__':
+    CELL_WIDTH = 63
     wb = Workbook()
     ws = wb.active
-    write_img(ws, 'img.png', 100, 100)
     write_row(ws, 1, [1, 2, 3])
+    write_img(ws, 'img.png', CELL_WIDTH, 0)
     wb.save('out.xlsx')
