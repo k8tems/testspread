@@ -34,6 +34,12 @@ class DLSheet(object):
         for i in range(1, 100):
             self.ws.row_dimensions[i].height = cell_height
 
+    @classmethod
+    def create(cls, ws, img_left, img_sz, prompt_cell_width, cell_height):
+        obj = cls(ws, img_left, img_sz)
+        obj.init_dims(prompt_cell_width, cell_height)
+        return obj
+
     def append(self, prompt, loss, pil_img):
         write_row(ws, 1, [prompt, loss])
         img = Image(pil_img)
@@ -51,8 +57,9 @@ if __name__ == '__main__':
 
     pil_img = PILImage.open('img.png')  # this is what the incoming data will look like in the NB
 
-    dl_sheet = DLSheet(ws, img_left=IMG_LEFT, img_sz=IMG_SZ)
-    dl_sheet.init_dims(prompt_cell_width=PROMPT_CELL_WIDTH, cell_height=CELL_HEIGHT)
+    dl_sheet = DLSheet.create(
+        ws, img_left=IMG_LEFT, img_sz=IMG_SZ,
+        prompt_cell_width=PROMPT_CELL_WIDTH, cell_height=CELL_HEIGHT)
     dl_sheet.append(
         prompt='A bengal cat [mbl] resting on a hammock', loss=0.0015, pil_img=pil_img)
 
