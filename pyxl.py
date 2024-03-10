@@ -28,6 +28,21 @@ def write_row(ws, row, data, start_col=1):
         ws.cell(row=row, column=start_col+i).value = d
 
 
+class DLSheet(object):
+    def __init__(self, ws, img_left):
+        self.ws = ws
+        self.img_left = img_left
+
+    def init_dims(self, prompt_cell_width, cell_height):
+        self.ws.column_dimensions['A'].width = prompt_cell_width
+        for i in range(1, 100):
+            self.ws.row_dimensions[i].height = cell_height
+
+    def append(self, prompt, loss, img):
+        write_row(ws, 1, [prompt, loss])
+        write_img(ws, img, (self.img_left, 0))
+
+
 if __name__ == '__main__':
     IMG_LEFT = 63
     CELL_HEIGHT = 75
@@ -36,11 +51,9 @@ if __name__ == '__main__':
     wb = Workbook()
     ws = wb.active
 
-    ws.column_dimensions['A'].width = PROMPT_CELL_WIDTH
+    dl_sheet = DLSheet(ws, img_left=IMG_LEFT)
+    dl_sheet.init_dims(prompt_cell_width=PROMPT_CELL_WIDTH, cell_height=CELL_HEIGHT)
+    dl_sheet.append(
+        prompt='A bengal cat [mbl] resting on a hammock', loss=0.0015, img=create_img('img.png', IMG_SZ))
 
-    for i in range(1, 100):
-        ws.row_dimensions[i].height = CELL_HEIGHT
-
-    write_row(ws, 1, ['A bengal cat [mbl] resting on a hammock', 0.0015])
-    write_img(ws, create_img('img.png', IMG_SZ), (IMG_LEFT, 0))
     wb.save('out.xlsx')
