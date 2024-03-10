@@ -1,4 +1,4 @@
-A utility library for saving images/prompt/loss info to an xls file  
+**A utility library for saving images/prompt/loss info to an xls file**  
 Great for checking how well your SD finetuned model understands the dataset  
 I initially attempted to implement this in google sheets with image urls, but found that every image was downloaded each time I opened the spreadsheet.  
 Given the potential bandwidth issues, I decided to resort to creating local xls files.  
