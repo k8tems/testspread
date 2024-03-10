@@ -46,7 +46,7 @@ class DLSheet(object):
         imgs = [Image(pi) for pi in pil_imgs]
         for i, im in enumerate(imgs):
             im.width, im.height = self.img_sz
-            write_img(ws, im, (self.img_left + (i*100), (self.cur_row-1) * 100))
+            write_img(ws, im, (self.img_left + (i*self.img_sz[0]), (self.cur_row-1) * self.img_sz[0]))
         self.cur_row += 1
 
 
