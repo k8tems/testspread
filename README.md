@@ -6,3 +6,6 @@ Given the potential bandwidth issues, I decided to resort to creating local xls 
 The implementation is VERY hacky, relying on hardcoded coordinates as openpyxl doesn't support rendering images to cells directly.  
 
 ![](https://gyazo.com/2342fb8c8a61db4a4c42881628831362.j)
+
+### TODO
+- [ ] Set default params of DLSheet ctor
